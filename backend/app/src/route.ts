@@ -1,5 +1,5 @@
-import { Elysia } from "elysia";
-import { prisma } from "./lib/prisma";
+import { Elysia,t } from "elysia";
+import { prisma } from "./prisma";
 import { jwt } from "@elysiajs/jwt";
 import {
   ACCESS_TOKEN_EXP,
@@ -19,11 +19,27 @@ export const authRoutes = new Elysia({ prefix: "/auth"})
 )
 .post(
     "/sign-up",
-    async (c) =>{
-        return{
-            message:"Account created successfully",
-        };
-    },
+    async ({ body:{id} }) => {
+      // hash password
+      const password = await Bun.password.hash(body.password, {
+        algorithm: "bcrypt",
+        cost: 10,
+      });
+
+      const user = await prisma.user.create({
+        data: {
+          ...body,
+
+          password,
+        },
+      });
+      return {
+        message: "Account created successfully",
+        data: {
+          user,
+        },
+      };
+    }
 )
 .post(
     "/refresh",
