@@ -21,6 +21,8 @@ model User {
   role    Role     @default(ALUMNI)
   posts   Post[]
   profile Profile?
+  refreshToken String?
+  isOnline     Boolean  @default(false)
 }
 
 model Profile {
