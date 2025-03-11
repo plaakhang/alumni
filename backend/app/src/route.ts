@@ -10,6 +10,7 @@ import {
 import { getExpTimestamp } from "./lib/until";
 import { authPlugin } from "./plugin";
 
+
 export const authRoutes = new Elysia({ prefix: "/auth" })
   .use(
     jwt({
@@ -106,6 +107,13 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
         algorithm: "bcrypt",
         cost: 10,
       });
+      const user = await prisma.user.create({
+        data: {
+          email: 'elsa@prisma.io',
+          name: 'Elsa Prisma',
+          password: '',
+        },
+      })
     },
     {
       body: signupBodySchema,

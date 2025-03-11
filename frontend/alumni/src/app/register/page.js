@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -11,7 +13,6 @@ export default function RegisterPage() {
     const handleRegister = async (e) => {
         e.preventDefault();
 
-        // ตรวจสอบว่ารหัสผ่านตรงกัน
         if (password !== confirmPassword) {
             alert("Passwords do not match!");
             return;
@@ -20,7 +21,7 @@ export default function RegisterPage() {
         const res = await fetch("http://localhost:3001/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ name, email, username, password }),
         });
 
         const data = await res.json();
@@ -33,9 +34,35 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="relative w-full min-h-screen flex items-center justify-center">
+        {/* วิดีโอพื้นหลัง */}
+        <video 
+            autoPlay 
+            loop 
+            muted 
+            className="absolute top-0 left-0 w-full h-full object-cover"
+        >
+            <source src="/background-video.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
+        
+        <div className="relative flex flex-col items-center justify-center  bg-gray-100">
             <form onSubmit={handleRegister} className="bg-white p-6 rounded-lg shadow-lg w-96">
                 <h2 className="text-2xl font-semibold text-gray-800 mb-4">Register</h2>
+
+                <input type="text"
+                    className="border border-gray-300 p-3 w-full rounded-lg text-gray-800 mb-3"
+                    placeholder="Full Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required />
+
+                <input type="email"
+                    className="border border-gray-300 p-3 w-full rounded-lg text-gray-800 mb-3"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required />
 
                 <input type="text"
                     className="border border-gray-300 p-3 w-full rounded-lg text-gray-800 mb-3"
@@ -63,6 +90,7 @@ export default function RegisterPage() {
                     Register
                 </button>
             </form>
+        </div>
         </div>
     );
 }
