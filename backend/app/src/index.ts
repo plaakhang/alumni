@@ -1,4 +1,6 @@
 import { Elysia } from "elysia";
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 
 const app = new Elysia().get("/", () => "Hello Elysia")
 .get("/login", () => "Login path Elysia")

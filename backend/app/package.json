@@ -8,10 +8,12 @@
   "dependencies": {
     "@elysiajs/jwt": "^1.2.0",
     "@prisma/client": "^6.4.0",
+    "bcrypt": "^5.1.1",
     "elysia": "^1.2.24",
     "prisma": "^6.4.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "bun-types": "latest"
   },
   "module": "src/index.js"
